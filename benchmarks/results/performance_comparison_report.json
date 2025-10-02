@@ -1,0 +1,23 @@
+{
+  "timestamp": 1759382933.8368742,
+  "benchmark": {
+    "error": "Missing benchmark results for comparison"
+  },
+  "load_test": {
+    "error": "Missing load test results for comparison"
+  },
+  "memory": {
+    "error": "Missing memory results for comparison"
+  },
+  "latency": {
+    "error": "Missing latency results for comparison"
+  },
+  "overall_summary": {
+    "total_tests": 0,
+    "total_improvements": 0,
+    "total_regressions": 0,
+    "total_unchanged": 0,
+    "improvement_rate": 0,
+    "regression_rate": 0
+  }
+}
