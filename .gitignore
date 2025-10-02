@@ -16,6 +16,11 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+redis_clone.aof
+*.rdb
+*.log
+.venv/
+__pycache__/
 
 # Test coverage
 .pytest_cache/
