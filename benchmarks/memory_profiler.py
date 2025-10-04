@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Memory profiling for Redis clone
-Analyzes memory usage patterns and growth
-"""
-
 import gc
 import json
 import os
@@ -30,7 +24,7 @@ class MemoryProfiler:
         self.process = psutil.Process()
 
     def get_memory_usage(self) -> Dict[str, float]:
-        """Get current memory usage statistics"""
+        
         memory_info = self.process.memory_info()
         memory_percent = self.process.memory_percent()
 
@@ -44,7 +38,7 @@ class MemoryProfiler:
     def profile_operation_memory(
         self, operation_name: str, operation_func, *args, **kwargs
     ) -> Dict[str, Any]:
-        """Profile memory usage during a single operation"""
+        
         # Force garbage collection before measurement
         gc.collect()
 
@@ -75,7 +69,7 @@ class MemoryProfiler:
         }
 
     def profile_set_operations(self, num_operations: int = 10000) -> Dict[str, Any]:
-        """Profile memory usage during SET operations"""
+        
         print(f"Profiling SET operations memory usage ({num_operations} operations)...")
 
         client = Client()
@@ -126,7 +120,7 @@ class MemoryProfiler:
         }
 
     def profile_get_operations(self, num_operations: int = 10000) -> Dict[str, Any]:
-        """Profile memory usage during GET operations"""
+        
         print(f"Profiling GET operations memory usage ({num_operations} operations)...")
 
         client = Client()
@@ -159,7 +153,7 @@ class MemoryProfiler:
         }
 
     def profile_ttl_operations(self, num_operations: int = 5000) -> Dict[str, Any]:
-        """Profile memory usage during TTL operations"""
+        
         print(f"Profiling TTL operations memory usage ({num_operations} operations)...")
 
         client = Client()
@@ -194,7 +188,7 @@ class MemoryProfiler:
     def profile_large_values(
         self, num_operations: int = 1000, value_size_kb: int = 10
     ) -> Dict[str, Any]:
-        """Profile memory usage with large values"""
+        
         print(
             f"Profiling large values memory usage ({num_operations} operations, {value_size_kb}KB each)..."
         )
@@ -243,7 +237,7 @@ class MemoryProfiler:
     def profile_memory_growth_over_time(
         self, duration_seconds: int = 60, operations_per_second: int = 100
     ) -> Dict[str, Any]:
-        """Profile memory growth over time with continuous operations"""
+        
         print(
             f"Profiling memory growth over {duration_seconds} seconds at {operations_per_second} ops/sec..."
         )
@@ -293,7 +287,7 @@ class MemoryProfiler:
     def profile_concurrent_memory(
         self, num_clients: int = 10, operations_per_client: int = 1000
     ) -> Dict[str, Any]:
-        """Profile memory usage with concurrent clients"""
+        
         print(
             f"Profiling concurrent memory usage ({num_clients} clients, {operations_per_client} ops each)..."
         )
@@ -347,7 +341,7 @@ class MemoryProfiler:
         }
 
     def run_full_memory_profile(self) -> Dict[str, Any]:
-        """Run complete memory profiling suite"""
+        
         print("=" * 60)
         print("Redis Clone Memory Profiling")
         print("=" * 60)
@@ -376,7 +370,7 @@ class MemoryProfiler:
         return profile_results
 
     def _print_memory_profile(self, name: str, result: Dict[str, Any]):
-        """Print formatted memory profile result"""
+        
         if "error" in result:
             print(f"\n{name}: ERROR - {result['error']}")
             return
@@ -401,7 +395,7 @@ class MemoryProfiler:
 
 
 def main():
-    """Main memory profiler runner"""
+    
     profiler = MemoryProfiler()
     results = profiler.run_full_memory_profile()
 

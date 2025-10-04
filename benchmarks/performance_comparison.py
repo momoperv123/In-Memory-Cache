@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Performance comparison tool for Redis clone
-Creates before/after performance comparison reports
-"""
-
 import json
 import os
 import sys
@@ -25,7 +19,7 @@ class PerformanceComparison:
     def load_baseline_results(
         self, baseline_file: str = "results/baseline_performance.json"
     ):
-        """Load baseline performance results"""
+        
         if os.path.exists(baseline_file):
             with open(baseline_file) as f:
                 self.baseline_results = json.load(f)
@@ -36,7 +30,7 @@ class PerformanceComparison:
     def save_baseline_results(
         self, baseline_file: str = "results/baseline_performance.json"
     ):
-        """Save current results as baseline"""
+        
         import os
 
         os.makedirs("results", exist_ok=True)
@@ -45,7 +39,7 @@ class PerformanceComparison:
         print(f"Saved baseline results to {baseline_file}")
 
     def load_current_results(self, results_dir: str = "results"):
-        """Load current performance test results"""
+        
         result_files = {
             "benchmark": "benchmark_results.json",
             "load_test": "load_test_results.json",
@@ -68,7 +62,7 @@ class PerformanceComparison:
                 print(f"Warning: {filename} not found")
 
     def compare_benchmark_results(self) -> Dict[str, Any]:
-        """Compare benchmark results between baseline and current"""
+        
         if not self.baseline_results.get("benchmark") or not self.current_results.get(
             "benchmark"
         ):
@@ -177,7 +171,7 @@ class PerformanceComparison:
         return comparison
 
     def compare_load_test_results(self) -> Dict[str, Any]:
-        """Compare load test results between baseline and current"""
+        
         if not self.baseline_results.get("load_test") or not self.current_results.get(
             "load_test"
         ):
@@ -294,7 +288,7 @@ class PerformanceComparison:
         return comparison
 
     def compare_memory_results(self) -> Dict[str, Any]:
-        """Compare memory results between baseline and current"""
+        
         if not self.baseline_results.get("memory") or not self.current_results.get(
             "memory"
         ):
@@ -403,7 +397,7 @@ class PerformanceComparison:
         return comparison
 
     def compare_latency_results(self) -> Dict[str, Any]:
-        """Compare latency results between baseline and current"""
+        
         if not self.baseline_results.get("latency") or not self.current_results.get(
             "latency"
         ):
@@ -524,7 +518,7 @@ class PerformanceComparison:
         return comparison
 
     def create_comprehensive_comparison(self) -> Dict[str, Any]:
-        """Create comprehensive comparison report"""
+        
         print("Creating comprehensive performance comparison...")
 
         comparison = {
@@ -566,7 +560,7 @@ class PerformanceComparison:
         return comparison
 
     def print_comparison_report(self, comparison: Dict[str, Any]):
-        """Print formatted comparison report"""
+        
         print("\n" + "=" * 80)
         print("REDIS CLONE PERFORMANCE COMPARISON REPORT")
         print("=" * 80)
@@ -624,7 +618,7 @@ class PerformanceComparison:
 
 
 def main():
-    """Main performance comparison runner"""
+    
     comparison_tool = PerformanceComparison()
 
     # Load current results

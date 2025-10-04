@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Optimization analyzer for Redis clone
-Analyzes performance results and suggests optimizations
-"""
-
 import json
 import os
 import statistics
@@ -24,7 +18,7 @@ class OptimizationAnalyzer:
         self.latency_results = {}
 
     def load_results(self, results_dir: str = "results"):
-        """Load all performance test results"""
+        
         result_files = {
             "benchmark": "benchmark_results.json",
             "load_test": "load_test_results.json",
@@ -52,7 +46,7 @@ class OptimizationAnalyzer:
                 print(f"Warning: {filename} not found")
 
     def analyze_performance_bottlenecks(self) -> Dict[str, Any]:
-        """Analyze performance bottlenecks from test results"""
+        
         print("Analyzing performance bottlenecks...")
 
         bottlenecks = {
@@ -82,7 +76,7 @@ class OptimizationAnalyzer:
         return bottlenecks
 
     def _analyze_benchmark_bottlenecks(self) -> Dict[str, List[str]]:
-        """Analyze bottlenecks from benchmark results"""
+        
         bottlenecks = {
             "cpu_bound": [],
             "algorithm_inefficiencies": [],
@@ -117,7 +111,7 @@ class OptimizationAnalyzer:
         return bottlenecks
 
     def _analyze_load_test_bottlenecks(self) -> Dict[str, List[str]]:
-        """Analyze bottlenecks from load test results"""
+        
         bottlenecks = {
             "concurrency_issues": [],
             "network_bound": [],
@@ -173,7 +167,7 @@ class OptimizationAnalyzer:
         return bottlenecks
 
     def _analyze_memory_bottlenecks(self) -> Dict[str, List[str]]:
-        """Analyze bottlenecks from memory results"""
+        
         bottlenecks = {
             "memory_bound": [],
         }
@@ -211,7 +205,7 @@ class OptimizationAnalyzer:
         return bottlenecks
 
     def _analyze_latency_bottlenecks(self) -> Dict[str, List[str]]:
-        """Analyze bottlenecks from latency results"""
+        
         bottlenecks = {
             "algorithm_inefficiencies": [],
         }
@@ -244,7 +238,7 @@ class OptimizationAnalyzer:
         return bottlenecks
 
     def generate_optimization_recommendations(self) -> Dict[str, List[str]]:
-        """Generate optimization recommendations based on analysis"""
+        
         print("Generating optimization recommendations...")
 
         recommendations = {
@@ -306,7 +300,7 @@ class OptimizationAnalyzer:
         return recommendations
 
     def create_performance_report(self) -> Dict[str, Any]:
-        """Create comprehensive performance report"""
+        
         print("Creating performance report...")
 
         report = {
@@ -346,7 +340,7 @@ class OptimizationAnalyzer:
         return report
 
     def _summarize_benchmark_results(self) -> Dict[str, Any]:
-        """Summarize benchmark results"""
+        
         summary = {
             "total_tests": len(self.benchmark_results),
             "successful_tests": 0,
@@ -376,7 +370,7 @@ class OptimizationAnalyzer:
         return summary
 
     def _summarize_load_test_results(self) -> Dict[str, Any]:
-        """Summarize load test results"""
+        
         summary = {
             "total_tests": len(self.load_test_results),
             "successful_tests": 0,
@@ -408,7 +402,7 @@ class OptimizationAnalyzer:
         return summary
 
     def _summarize_memory_results(self) -> Dict[str, Any]:
-        """Summarize memory results"""
+        
         summary = {
             "total_tests": len(self.memory_results),
             "successful_tests": 0,
@@ -441,7 +435,7 @@ class OptimizationAnalyzer:
         return summary
 
     def _summarize_latency_results(self) -> Dict[str, Any]:
-        """Summarize latency results"""
+        
         summary = {
             "total_tests": len(self.latency_results),
             "successful_tests": 0,
@@ -473,7 +467,7 @@ class OptimizationAnalyzer:
         return summary
 
     def print_report(self, report: Dict[str, Any]):
-        """Print formatted performance report"""
+        
         print("\n" + "=" * 80)
         print("REDIS CLONE PERFORMANCE ANALYSIS REPORT")
         print("=" * 80)
@@ -517,7 +511,7 @@ class OptimizationAnalyzer:
 
 
 def main():
-    """Main optimization analyzer runner"""
+    
     analyzer = OptimizationAnalyzer()
 
     # Load results

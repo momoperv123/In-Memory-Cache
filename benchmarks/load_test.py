@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Load testing for Redis clone
-Tests performance under high concurrent load
-"""
-
 import json
 import os
 import statistics
@@ -27,13 +21,13 @@ class LoadTester:
         self.results: List[Dict[str, Any]] = []
 
     def create_client(self) -> Client:
-        """Create a new client connection"""
+        
         return Client()
 
     def worker_set_operations(
         self, worker_id: int, num_operations: int
     ) -> Dict[str, Any]:
-        """Worker function for SET operations"""
+        
         client = self.create_client()
         client.flush()  # Clear database
 
@@ -80,7 +74,7 @@ class LoadTester:
     def worker_get_operations(
         self, worker_id: int, num_operations: int
     ) -> Dict[str, Any]:
-        """Worker function for GET operations"""
+        
         client = self.create_client()
         client.flush()  # Clear database
 
@@ -130,7 +124,7 @@ class LoadTester:
     def worker_mixed_operations(
         self, worker_id: int, num_operations: int
     ) -> Dict[str, Any]:
-        """Worker function for mixed SET/GET operations"""
+        
         client = self.create_client()
         client.flush()  # Clear database
 
@@ -185,7 +179,7 @@ class LoadTester:
     def run_load_test(
         self, num_workers: int, operations_per_worker: int, operation_type: str = "SET"
     ) -> Dict[str, Any]:
-        """Run load test with specified parameters"""
+        
         print(
             f"Starting load test: {num_workers} workers, {operations_per_worker} ops each, {operation_type} operations"
         )
@@ -287,7 +281,7 @@ class LoadTester:
         }
 
     def _percentile(self, data: List[float], percentile: int) -> float:
-        """Calculate percentile of data"""
+        
         if not data:
             return 0
         sorted_data = sorted(data)
@@ -295,7 +289,7 @@ class LoadTester:
         return sorted_data[min(index, len(sorted_data) - 1)]
 
     def run_scaling_test(self) -> Dict[str, Any]:
-        """Run scaling test with increasing number of workers"""
+        
         print("Running scaling test...")
 
         scaling_results = {}
@@ -321,7 +315,7 @@ class LoadTester:
     def run_sustained_load_test(
         self, duration_seconds: int = 60, num_workers: int = 10
     ) -> Dict[str, Any]:
-        """Run sustained load test for specified duration"""
+        
         print(
             f"Running sustained load test for {duration_seconds} seconds with {num_workers} workers..."
         )
@@ -411,7 +405,7 @@ class LoadTester:
 
 
 def main():
-    """Main load test runner"""
+    
     print("=" * 60)
     print("Redis Clone Load Testing")
     print("=" * 60)

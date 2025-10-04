@@ -8,7 +8,7 @@ from io import TextIOWrapper
 
 
 class FsyncPolicy(Enum):
-    """AOF fsync policies"""
+    
 
     ALWAYS = "always"  # fsync after every write
     EVERYSEC = "everysec"  # fsync every second
@@ -16,7 +16,7 @@ class FsyncPolicy(Enum):
 
 
 class AOFManager:
-    """Append-Only File manager for Redis clone persistence"""
+    
 
     def __init__(
         self,
@@ -32,7 +32,7 @@ class AOFManager:
         self._stop_fsync = threading.Event()
 
     def start(self) -> None:
-        """Start AOF manager and open file"""
+        
         with self._lock:
             if self._file is None:
                 # Open file in append mode
@@ -47,7 +47,7 @@ class AOFManager:
                     self._fsync_thread.start()
 
     def stop(self) -> None:
-        """Stop AOF manager and close file"""
+        
         with self._lock:
             if self._file is not None:
                 # Stop background fsync thread
@@ -65,7 +65,7 @@ class AOFManager:
                 self._file = None
 
     def append_command(self, command: str, *args: str) -> None:
-        """Append a command to the AOF file"""
+        
         if self._file is None:
             return
 
@@ -89,7 +89,7 @@ class AOFManager:
             # NO policy: let OS decide
 
     def _fsync_worker(self) -> None:
-        """Background worker for everysec fsync policy"""
+        
         while not self._stop_fsync.wait(1.0):  # Wait 1 second or until stop
             with self._lock:
                 if self._file is not None:
@@ -98,7 +98,7 @@ class AOFManager:
                     self._last_fsync = time.time()
 
     def replay_commands(self, command_handler: callable) -> int:
-        """Replay commands from AOF file and return number of commands replayed"""
+        
         if not os.path.exists(self.aof_file):
             return 0
 
@@ -172,12 +172,12 @@ class AOFManager:
         return commands_replayed
 
     def get_file_size(self) -> int:
-        """Get current AOF file size in bytes"""
+        
         try:
             return os.path.getsize(self.aof_file)
         except OSError:
             return 0
 
     def is_enabled(self) -> bool:
-        """Check if AOF is enabled"""
+        
         return self._file is not None

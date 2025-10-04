@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Master script to run all performance tests
-Orchestrates the complete performance testing suite
-"""
-
 import json
 import os
 import subprocess
@@ -33,7 +27,7 @@ class PerformanceTestRunner:
         self.results = {}
 
     def check_server_running(self) -> bool:
-        """Check if the Redis clone server is running"""
+        
         try:
             import socket
 
@@ -46,7 +40,7 @@ class PerformanceTestRunner:
             return False
 
     def run_script(self, script_name: str) -> Dict[str, Any]:
-        """Run a single test script"""
+        
         print(f"\n{'=' * 60}")
         print(f"Running {script_name}")
         print(f"{'=' * 60}")
@@ -87,7 +81,7 @@ class PerformanceTestRunner:
             }
 
     def run_all_tests(self) -> Dict[str, Any]:
-        """Run all performance test scripts"""
+        
         print(" Starting Redis Clone Performance Testing Suite")
         print("=" * 80)
 
@@ -144,7 +138,7 @@ class PerformanceTestRunner:
         return summary
 
     def print_summary(self, summary: Dict[str, Any]):
-        """Print test execution summary"""
+        
         print("\n" + "=" * 80)
         print("PERFORMANCE TESTING SUITE SUMMARY")
         print("=" * 80)
@@ -205,7 +199,7 @@ class PerformanceTestRunner:
         summary: Dict[str, Any],
         filename: str = "results/test_execution_summary.json",
     ):
-        """Save test execution summary"""
+        
         import os
 
         os.makedirs("results", exist_ok=True)
@@ -215,7 +209,7 @@ class PerformanceTestRunner:
 
 
 def main():
-    """Main test runner"""
+    
     runner = PerformanceTestRunner()
 
     # Run all tests

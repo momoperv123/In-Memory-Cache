@@ -35,19 +35,18 @@ class Server:
         self._aof_manager: AOFManager = AOFManager(aof_file, fsync_policy)
         self._commands: dict[str, Any] = self.get_commands()
 
-        # Start AOF and replay commands
         self._aof_manager.start()
         commands_replayed = self._aof_manager.replay_commands(self._replay_command)
         if commands_replayed > 0:
             print(f"Replayed {commands_replayed} commands from AOF")
 
     def _replay_command(self, command: str, *args: str) -> None:
-        """Replay a command during AOF recovery (no AOF logging)"""
+        
         if command in self._commands:
             self._commands[command](*args)
 
     def _log_command(self, command: str, *args: str) -> None:
-        """Log a command to AOF"""
+        
         self._aof_manager.append_command(command, *args)
 
     def get_commands(self) -> dict[str, Any]:
@@ -266,7 +265,7 @@ class Server:
             self._aof_manager.stop()
 
     def shutdown(self) -> None:
-        """Gracefully shutdown the server"""
+        
         self._aof_manager.stop()
         self._server.stop()
 

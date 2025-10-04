@@ -21,6 +21,7 @@ redis_clone.aof
 *.log
 .venv/
 __pycache__/
+benchmarks/results/
 
 # Test coverage
 .pytest_cache/

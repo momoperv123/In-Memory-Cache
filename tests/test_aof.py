@@ -9,7 +9,6 @@ from src.redis_clone.client import Client
 
 
 class AOFTestSuite:
-    """Comprehensive AOF testing suite"""
 
     def __init__(self):
         self.test_results = {}
@@ -18,8 +17,6 @@ class AOFTestSuite:
         self.server_port = 31338  # Different port for testing
 
     def cleanup(self):
-        """Clean up test files and processes"""
-        # Kill server process if running
         if self.server_process:
             try:
                 self.server_process.terminate()
@@ -30,22 +27,17 @@ class AOFTestSuite:
                 pass
             self.server_process = None
 
-        # Remove test AOF file
         if os.path.exists(self.aof_file):
             os.remove(self.aof_file)
 
     def test_basic_aof_functionality(self) -> Dict[str, Any]:
-        """Test basic AOF append and replay functionality"""
         print("Testing basic AOF functionality...")
 
-        # Clean up first
         self.cleanup()
 
-        # Create AOF manager
         aof_manager = AOFManager(self.aof_file, FsyncPolicy.ALWAYS)
         aof_manager.start()
 
-        # Log some commands
         commands_logged = []
         aof_manager.append_command("SET", "key1", "value1")
         commands_logged.append(("SET", "key1", "value1"))
@@ -58,17 +50,14 @@ class AOFTestSuite:
 
         aof_manager.stop()
 
-        # Create mock command handler to track replayed commands
         replayed_commands = []
 
         def mock_handler(command: str, *args: str):
             replayed_commands.append((command,) + args)
 
-        # Replay commands
         aof_manager = AOFManager(self.aof_file, FsyncPolicy.ALWAYS)
         commands_replayed = aof_manager.replay_commands(mock_handler)
 
-        # Verify
         success = (
             commands_replayed == len(commands_logged)
             and replayed_commands == commands_logged
@@ -94,11 +83,9 @@ class AOFTestSuite:
         for policy in [FsyncPolicy.ALWAYS, FsyncPolicy.EVERYSEC, FsyncPolicy.NO]:
             self.cleanup()
 
-            # Create AOF manager with specific policy
             aof_manager = AOFManager(self.aof_file, policy)
             aof_manager.start()
 
-            # Log commands and measure time
             start_time = time.time()
             for i in range(100):
                 aof_manager.append_command("SET", f"key{i}", f"value{i}")
@@ -106,7 +93,6 @@ class AOFTestSuite:
 
             aof_manager.stop()
 
-            # Check file exists and has content
             file_exists = os.path.exists(self.aof_file)
             file_size = os.path.getsize(self.aof_file) if file_exists else 0
 
@@ -127,12 +113,10 @@ class AOFTestSuite:
         }
 
     def test_corruption_recovery(self) -> Dict[str, Any]:
-        """Test AOF corruption detection and recovery"""
         print("Testing corruption recovery...")
 
         self.cleanup()
 
-        # Create valid AOF file
         aof_manager = AOFManager(self.aof_file, FsyncPolicy.ALWAYS)
         aof_manager.start()
 
@@ -142,12 +126,10 @@ class AOFTestSuite:
 
         aof_manager.stop()
 
-        # Corrupt the file by appending invalid data
         with open(self.aof_file, "a", encoding="utf-8") as f:
             f.write("INVALID_DATA_HERE\r\n")
             f.write("*2\r\n$3\r\nSET\r\n$4\r\nkey4\r\n")  # Incomplete command
 
-        # Try to replay - should truncate at last valid command
         replayed_commands = []
 
         def mock_handler(command: str, *args: str):
@@ -156,7 +138,6 @@ class AOFTestSuite:
         aof_manager = AOFManager(self.aof_file, FsyncPolicy.ALWAYS)
         commands_replayed = aof_manager.replay_commands(mock_handler)
 
-        # Verify only valid commands were replayed
         expected_commands = [
             ("SET", "key1", "value1"),
             ("SET", "key2", "value2"),
@@ -175,12 +156,10 @@ class AOFTestSuite:
         }
 
     def test_power_off_simulation(self) -> Dict[str, Any]:
-        """Simulate power-off during write operations"""
         print("Testing power-off simulation...")
 
         self.cleanup()
 
-        # Start server
         server_cmd = [
             "python",
             "-c",
@@ -194,11 +173,9 @@ class AOFTestSuite:
         # Wait for server to start
         time.sleep(2)
 
-        # Connect client and perform operations
         client = Client()
         client.connect("127.0.0.1", self.server_port)
 
-        # Perform some operations
         operations_performed = []
         try:
             client.set("key1", "value1")
@@ -210,14 +187,12 @@ class AOFTestSuite:
             client.delete("key1")
             operations_performed.append(("DELETE", "key1"))
 
-            # Simulate power-off by killing the server process
             self.server_process.terminate()
             time.sleep(1)
 
         except Exception as e:
             print(f"Client operations failed: {e}")
 
-        # Check AOF file exists and has content
         aof_exists = os.path.exists(self.aof_file)
         aof_size = os.path.getsize(self.aof_file) if aof_exists else 0
 
@@ -228,7 +203,6 @@ class AOFTestSuite:
 
         time.sleep(2)
 
-        # Check if data was recovered
         recovered_data = {}
         try:
             client = Client()
@@ -248,7 +222,6 @@ class AOFTestSuite:
 
         self.cleanup()
 
-        # Verify recovery
         success = (
             aof_exists
             and aof_size > 0
@@ -266,7 +239,6 @@ class AOFTestSuite:
         }
 
     def test_performance_benchmark(self) -> Dict[str, Any]:
-        """Test AOF performance with 200k operations"""
         print("Testing AOF performance benchmark...")
 
         self.cleanup()
@@ -275,7 +247,6 @@ class AOFTestSuite:
         aof_manager = AOFManager(self.aof_file, FsyncPolicy.EVERYSEC)
         aof_manager.start()
 
-        # Log 200k operations
         start_time = time.time()
         for i in range(200000):
             aof_manager.append_command("SET", f"key{i}", f"value{i}")
@@ -283,7 +254,6 @@ class AOFTestSuite:
 
         aof_manager.stop()
 
-        # Measure replay time
         replayed_commands = []
 
         def mock_handler(command: str, *args: str):
@@ -298,7 +268,6 @@ class AOFTestSuite:
 
         self.cleanup()
 
-        # Check if replay time is under 2 seconds
         success = replay_time < 2.0 and commands_replayed == 200000
 
         return {
@@ -311,7 +280,6 @@ class AOFTestSuite:
         }
 
     def run_all_tests(self) -> Dict[str, Any]:
-        """Run all AOF tests"""
         print("Starting AOF Test Suite")
         print("=" * 60)
 
@@ -346,7 +314,6 @@ class AOFTestSuite:
                 }
                 print(f"{test_func.__name__}: ERROR - {e}")
 
-        # Clean up
         self.cleanup()
 
         summary = {
@@ -365,19 +332,16 @@ class AOFTestSuite:
 
 
 def main():
-    """Run AOF tests"""
     test_suite = AOFTestSuite()
 
     try:
         results = test_suite.run_all_tests()
 
-        # Save results
         with open("aof_test_results.json", "w") as f:
             json.dump(results, f, indent=2)
 
         print("\nResults saved to aof_test_results.json")
 
-        # Exit with appropriate code
         if results["failed"] > 0:
             print(f"\n{results['failed']} test(s) failed!")
             return 1
