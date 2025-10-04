@@ -23,11 +23,9 @@ class LatencyAnalyzer:
         self.latency_samples: List[float] = []
 
     def create_client(self) -> Client:
-        
         return Client()
 
     def measure_latency(self, operation_func, *args, **kwargs) -> Tuple[float, Any]:
-        
         start_time = time.perf_counter()
         result = operation_func(*args, **kwargs)
         end_time = time.perf_counter()
@@ -37,7 +35,6 @@ class LatencyAnalyzer:
     def measure_latency_batch(
         self, operation_func, num_operations: int, *args, **kwargs
     ) -> List[float]:
-        
         latencies = []
         for _ in range(num_operations):
             latency, _ = self.measure_latency(operation_func, *args, **kwargs)
@@ -45,7 +42,6 @@ class LatencyAnalyzer:
         return latencies
 
     def analyze_set_latency(self, num_operations: int = 10000) -> Dict[str, Any]:
-        
         print(f"Analyzing SET latency ({num_operations} operations)...")
 
         client = self.create_client()
@@ -61,7 +57,6 @@ class LatencyAnalyzer:
         return self._calculate_latency_stats("SET", latencies)
 
     def analyze_get_latency(self, num_operations: int = 10000) -> Dict[str, Any]:
-        
         print(f"Analyzing GET latency ({num_operations} operations)...")
 
         client = self.create_client()
@@ -80,7 +75,6 @@ class LatencyAnalyzer:
         return self._calculate_latency_stats("GET", latencies)
 
     def analyze_ttl_latency(self, num_operations: int = 5000) -> Dict[str, Any]:
-        
         print(f"Analyzing TTL latency ({num_operations} operations)...")
 
         client = self.create_client()
@@ -99,7 +93,6 @@ class LatencyAnalyzer:
         return self._calculate_latency_stats("TTL", latencies)
 
     def analyze_mixed_latency(self, num_operations: int = 10000) -> Dict[str, Any]:
-        
         print(f"Analyzing mixed operation latency ({num_operations} operations)...")
 
         client = self.create_client()
@@ -122,7 +115,6 @@ class LatencyAnalyzer:
     def analyze_latency_under_load(
         self, num_clients: int = 10, operations_per_client: int = 1000
     ) -> Dict[str, Any]:
-        
         print(
             f"Analyzing latency under load ({num_clients} clients, {operations_per_client} ops each)..."
         )
@@ -179,7 +171,6 @@ class LatencyAnalyzer:
     def analyze_latency_distribution(
         self, num_operations: int = 10000
     ) -> Dict[str, Any]:
-        
         print(f"Analyzing latency distribution ({num_operations} operations)...")
 
         client = self.create_client()
@@ -221,7 +212,6 @@ class LatencyAnalyzer:
     def analyze_latency_trends(
         self, num_operations: int = 10000, sample_interval: int = 100
     ) -> Dict[str, Any]:
-        
         print(
             f"Analyzing latency trends ({num_operations} operations, sampling every {sample_interval})..."
         )
@@ -257,7 +247,6 @@ class LatencyAnalyzer:
         }
 
     def analyze_latency_with_different_value_sizes(self) -> Dict[str, Any]:
-        
         print("Analyzing latency with different value sizes...")
 
         client = self.create_client()
@@ -288,7 +277,6 @@ class LatencyAnalyzer:
     def _calculate_latency_stats(
         self, operation: str, latencies: List[float]
     ) -> Dict[str, Any]:
-        
         if not latencies:
             return {"operation": operation, "error": "No latency data"}
 
@@ -334,7 +322,6 @@ class LatencyAnalyzer:
         return stats
 
     def run_full_latency_analysis(self) -> Dict[str, Any]:
-        
         print("=" * 60)
         print("Redis Clone Latency Analysis")
         print("=" * 60)
@@ -365,7 +352,6 @@ class LatencyAnalyzer:
         return analysis_results
 
     def _print_latency_analysis(self, name: str, result: Dict[str, Any]):
-        
         if "error" in result:
             print(f"\n{name}: ERROR - {result['error']}")
             return
@@ -399,7 +385,6 @@ class LatencyAnalyzer:
 
 
 def main():
-    
     analyzer = LatencyAnalyzer()
     results = analyzer.run_full_latency_analysis()
 

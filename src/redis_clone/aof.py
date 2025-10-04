@@ -8,16 +8,12 @@ from io import TextIOWrapper
 
 
 class FsyncPolicy(Enum):
-    
-
     ALWAYS = "always"  # fsync after every write
     EVERYSEC = "everysec"  # fsync every second
     NO = "no"  # never fsync (OS decides)
 
 
 class AOFManager:
-    
-
     def __init__(
         self,
         aof_file: str = "redis_clone.aof",
@@ -32,7 +28,6 @@ class AOFManager:
         self._stop_fsync = threading.Event()
 
     def start(self) -> None:
-        
         with self._lock:
             if self._file is None:
                 # Open file in append mode
@@ -47,7 +42,6 @@ class AOFManager:
                     self._fsync_thread.start()
 
     def stop(self) -> None:
-        
         with self._lock:
             if self._file is not None:
                 # Stop background fsync thread
@@ -65,7 +59,6 @@ class AOFManager:
                 self._file = None
 
     def append_command(self, command: str, *args: str) -> None:
-        
         if self._file is None:
             return
 
@@ -89,7 +82,6 @@ class AOFManager:
             # NO policy: let OS decide
 
     def _fsync_worker(self) -> None:
-        
         while not self._stop_fsync.wait(1.0):  # Wait 1 second or until stop
             with self._lock:
                 if self._file is not None:
@@ -98,7 +90,6 @@ class AOFManager:
                     self._last_fsync = time.time()
 
     def replay_commands(self, command_handler: callable) -> int:
-        
         if not os.path.exists(self.aof_file):
             return 0
 
@@ -172,12 +163,10 @@ class AOFManager:
         return commands_replayed
 
     def get_file_size(self) -> int:
-        
         try:
             return os.path.getsize(self.aof_file)
         except OSError:
             return 0
 
     def is_enabled(self) -> bool:
-        
         return self._file is not None

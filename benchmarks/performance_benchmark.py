@@ -20,20 +20,17 @@ class PerformanceBenchmark:
         self.results: Dict[str, List[float]] = {}
 
     def create_client(self) -> Client:
-        
         return Client()
 
     def measure_operation(
         self, operation_name: str, operation_func, *args, **kwargs
     ) -> float:
-        
         start_time = time.perf_counter()
         _ = operation_func(*args, **kwargs)
         end_time = time.perf_counter()
         return end_time - start_time
 
     def benchmark_set_operations(self, num_operations: int = 10000) -> Dict[str, Any]:
-        
         print(f"Benchmarking SET operations ({num_operations} operations)...")
 
         client = self.create_client()
@@ -49,7 +46,6 @@ class PerformanceBenchmark:
         return self._calculate_stats("SET", times, num_operations)
 
     def benchmark_get_operations(self, num_operations: int = 10000) -> Dict[str, Any]:
-        
         print(f"Benchmarking GET operations ({num_operations} operations)...")
 
         client = self.create_client()
@@ -68,7 +64,6 @@ class PerformanceBenchmark:
         return self._calculate_stats("GET", times, num_operations)
 
     def benchmark_mixed_operations(self, num_operations: int = 10000) -> Dict[str, Any]:
-        
         print(f"Benchmarking mixed operations ({num_operations} operations)...")
 
         client = self.create_client()
@@ -89,7 +84,6 @@ class PerformanceBenchmark:
         return self._calculate_stats("MIXED", times, num_operations)
 
     def benchmark_ttl_operations(self, num_operations: int = 5000) -> Dict[str, Any]:
-        
         print(f"Benchmarking TTL operations ({num_operations} operations)...")
 
         client = self.create_client()
@@ -110,7 +104,6 @@ class PerformanceBenchmark:
         return self._calculate_stats("TTL", times, num_operations)
 
     def benchmark_large_values(self, num_operations: int = 1000) -> Dict[str, Any]:
-        
         print(f"Benchmarking large value operations ({num_operations} operations)...")
 
         client = self.create_client()
@@ -130,7 +123,6 @@ class PerformanceBenchmark:
     def benchmark_concurrent_clients(
         self, num_clients: int = 10, operations_per_client: int = 1000
     ) -> Dict[str, Any]:
-        
         print(
             f"Benchmarking concurrent clients ({num_clients} clients, {operations_per_client} ops each)..."
         )
@@ -181,7 +173,6 @@ class PerformanceBenchmark:
     def _calculate_stats(
         self, operation: str, times: List[float], num_operations: int
     ) -> Dict[str, Any]:
-        
         total_time = sum(times)
         ops_per_second = num_operations / total_time
 
@@ -200,13 +191,11 @@ class PerformanceBenchmark:
         }
 
     def _percentile(self, data: List[float], percentile: int) -> float:
-        
         sorted_data = sorted(data)
         index = int(len(sorted_data) * percentile / 100)
         return sorted_data[min(index, len(sorted_data) - 1)]
 
     def run_full_benchmark(self) -> Dict[str, Any]:
-        
         print("=" * 60)
         print("Redis Clone Performance Benchmark")
         print("=" * 60)
@@ -235,7 +224,6 @@ class PerformanceBenchmark:
         return benchmark_results
 
     def _print_benchmark_result(self, name: str, result: Dict[str, Any]):
-        
         if "error" in result:
             print(f"\n{name}: ERROR - {result['error']}")
             return
@@ -252,7 +240,6 @@ class PerformanceBenchmark:
 
 
 def main():
-    
     benchmark = PerformanceBenchmark()
     results = benchmark.run_full_benchmark()
 

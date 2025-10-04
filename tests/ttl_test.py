@@ -33,7 +33,6 @@ def test_expire_command(client: Client) -> None:
 
 
 def test_pexpire_command(client: Client) -> None:
-    
     client.set("test_key", "value")
 
     # Set 100ms expiry
@@ -41,7 +40,6 @@ def test_pexpire_command(client: Client) -> None:
 
 
 def test_ttl_command(client: Client) -> None:
-    
     client.set("test_key", "value")
 
     # No TTL set
@@ -54,7 +52,6 @@ def test_ttl_command(client: Client) -> None:
 
 
 def test_pttl_command(client: Client) -> None:
-    
     client.set("test_key", "value")
 
     # No TTL set
@@ -67,7 +64,6 @@ def test_pttl_command(client: Client) -> None:
 
 
 def test_exists_command(client: Client) -> None:
-    
     client.set("key1", "value1")
     client.set("key2", "value2")
 
@@ -77,7 +73,6 @@ def test_exists_command(client: Client) -> None:
 
 
 def test_keys_command(client: Client) -> None:
-    
     client.set("key1", "value1")
     client.set("key2", "value2")
 
@@ -88,7 +83,6 @@ def test_keys_command(client: Client) -> None:
 
 
 def test_arity_errors(client: Client) -> None:
-    
     result = client.execute("GET")
     assert isinstance(result, list)
     assert "wrong number of arguments" in result[0]
@@ -99,26 +93,22 @@ def test_arity_errors(client: Client) -> None:
 
 
 def test_command_errors(client: Client) -> None:
-    
     result = client.execute("BADCOMMAND")
     assert isinstance(result, list)
     assert "unknown command" in result[0]
 
 
 def test_ttl_nonexistent_key(client: Client) -> None:
-    
     assert client.execute("TTL", "nonexistent_key") == -2
     assert client.execute("PTTL", "nonexistent_key") == -2
 
 
 def test_expire_nonexistent_key(client: Client) -> None:
-    
     assert client.execute("EXPIRE", "nonexistent_key", 10) == 0
     assert client.execute("PEXPIRE", "nonexistent_key", 10000) == 0
 
 
 def test_ttl_expiration(client: Client) -> None:
-    
     client.set("expire_key", "value")
 
     # Set very short TTL
@@ -141,7 +131,6 @@ def test_ttl_expiration(client: Client) -> None:
 
 
 def test_pexpire_expiration(client: Client) -> None:
-    
     client.set("pexpire_key", "value")
 
     # Set very short TTL (100ms)
@@ -163,7 +152,6 @@ def test_pexpire_expiration(client: Client) -> None:
 
 
 def test_ttl_update(client: Client) -> None:
-    
     client.set("update_key", "value")
 
     # Initially no TTL
@@ -181,7 +169,6 @@ def test_ttl_update(client: Client) -> None:
 
 
 def test_ttl_remove(client: Client) -> None:
-    
     client.set("remove_key", "value")
 
     # Set TTL
@@ -194,7 +181,6 @@ def test_ttl_remove(client: Client) -> None:
 
 
 def test_exists_with_ttl(client: Client) -> None:
-    
     client.set("exists_key", "value")
 
     # Key exists
@@ -214,7 +200,6 @@ def test_exists_with_ttl(client: Client) -> None:
 
 
 def test_keys_with_ttl(client: Client) -> None:
-    
     client.set("key1", "value1")
     client.set("key2", "value2")
     client.set("key3", "value3")
@@ -245,7 +230,6 @@ def test_keys_with_ttl(client: Client) -> None:
 
 
 def test_ttl_edge_cases(client: Client) -> None:
-    
     client.set("edge_key", "value")
 
     # Set TTL to 0 (should expire immediately)
@@ -261,7 +245,6 @@ def test_ttl_edge_cases(client: Client) -> None:
 
 
 def test_pttl_edge_cases(client: Client) -> None:
-    
     client.set("pttl_key", "value")
 
     # Set PTTL to 0 (should expire immediately)

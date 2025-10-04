@@ -41,12 +41,10 @@ class Server:
             print(f"Replayed {commands_replayed} commands from AOF")
 
     def _replay_command(self, command: str, *args: str) -> None:
-        
         if command in self._commands:
             self._commands[command](*args)
 
     def _log_command(self, command: str, *args: str) -> None:
-        
         self._aof_manager.append_command(command, *args)
 
     def get_commands(self) -> dict[str, Any]:
@@ -265,7 +263,6 @@ class Server:
             self._aof_manager.stop()
 
     def shutdown(self) -> None:
-        
         self._aof_manager.stop()
         self._server.stop()
 

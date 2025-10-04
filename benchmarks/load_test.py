@@ -21,13 +21,11 @@ class LoadTester:
         self.results: List[Dict[str, Any]] = []
 
     def create_client(self) -> Client:
-        
         return Client()
 
     def worker_set_operations(
         self, worker_id: int, num_operations: int
     ) -> Dict[str, Any]:
-        
         client = self.create_client()
         client.flush()  # Clear database
 
@@ -74,7 +72,6 @@ class LoadTester:
     def worker_get_operations(
         self, worker_id: int, num_operations: int
     ) -> Dict[str, Any]:
-        
         client = self.create_client()
         client.flush()  # Clear database
 
@@ -124,7 +121,6 @@ class LoadTester:
     def worker_mixed_operations(
         self, worker_id: int, num_operations: int
     ) -> Dict[str, Any]:
-        
         client = self.create_client()
         client.flush()  # Clear database
 
@@ -179,7 +175,6 @@ class LoadTester:
     def run_load_test(
         self, num_workers: int, operations_per_worker: int, operation_type: str = "SET"
     ) -> Dict[str, Any]:
-        
         print(
             f"Starting load test: {num_workers} workers, {operations_per_worker} ops each, {operation_type} operations"
         )
@@ -281,7 +276,6 @@ class LoadTester:
         }
 
     def _percentile(self, data: List[float], percentile: int) -> float:
-        
         if not data:
             return 0
         sorted_data = sorted(data)
@@ -289,7 +283,6 @@ class LoadTester:
         return sorted_data[min(index, len(sorted_data) - 1)]
 
     def run_scaling_test(self) -> Dict[str, Any]:
-        
         print("Running scaling test...")
 
         scaling_results = {}
@@ -315,7 +308,6 @@ class LoadTester:
     def run_sustained_load_test(
         self, duration_seconds: int = 60, num_workers: int = 10
     ) -> Dict[str, Any]:
-        
         print(
             f"Running sustained load test for {duration_seconds} seconds with {num_workers} workers..."
         )
@@ -405,7 +397,6 @@ class LoadTester:
 
 
 def main():
-    
     print("=" * 60)
     print("Redis Clone Load Testing")
     print("=" * 60)

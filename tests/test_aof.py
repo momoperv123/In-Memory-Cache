@@ -9,7 +9,6 @@ from src.redis_clone.client import Client
 
 
 class AOFTestSuite:
-
     def __init__(self):
         self.test_results = {}
         self.aof_file = "test_redis_clone.aof"

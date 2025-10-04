@@ -27,7 +27,6 @@ class PerformanceTestRunner:
         self.results = {}
 
     def check_server_running(self) -> bool:
-        
         try:
             import socket
 
@@ -40,7 +39,6 @@ class PerformanceTestRunner:
             return False
 
     def run_script(self, script_name: str) -> Dict[str, Any]:
-        
         print(f"\n{'=' * 60}")
         print(f"Running {script_name}")
         print(f"{'=' * 60}")
@@ -81,7 +79,6 @@ class PerformanceTestRunner:
             }
 
     def run_all_tests(self) -> Dict[str, Any]:
-        
         print(" Starting Redis Clone Performance Testing Suite")
         print("=" * 80)
 
@@ -138,7 +135,6 @@ class PerformanceTestRunner:
         return summary
 
     def print_summary(self, summary: Dict[str, Any]):
-        
         print("\n" + "=" * 80)
         print("PERFORMANCE TESTING SUITE SUMMARY")
         print("=" * 80)
@@ -199,7 +195,6 @@ class PerformanceTestRunner:
         summary: Dict[str, Any],
         filename: str = "results/test_execution_summary.json",
     ):
-        
         import os
 
         os.makedirs("results", exist_ok=True)
@@ -209,7 +204,6 @@ class PerformanceTestRunner:
 
 
 def main():
-    
     runner = PerformanceTestRunner()
 
     # Run all tests
